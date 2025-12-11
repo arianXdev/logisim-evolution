@@ -43,11 +43,20 @@ public class Main {
         FlatDarculaLaf.installLafInfo();
         FlatMacLightLaf.installLafInfo();
         FlatMacDarkLaf.installLafInfo();
+        
+        final var appFont = AppPreferences.APP_FONT.get();
+        if (appFont != null && !appFont.isBlank()) {
+          com.formdev.flatlaf.FlatLaf.setPreferredFontFamily(appFont);
+        }
 
         UIManager.setLookAndFeel(AppPreferences.LookAndFeel.get());
+        var toolTipFont = "SansSerif";
+        if (appFont != null && !appFont.isBlank()) {
+          toolTipFont = appFont;
+        }
         UIManager.put(
             "ToolTip.font",
-            new FontUIResource("SansSerif", Font.BOLD, AppPreferences.getScaled(12)));
+            new FontUIResource(toolTipFont, AppPreferences.getPreferredFontStyle(toolTipFont), AppPreferences.getScaled(12)));
       }
     } catch (ClassNotFoundException
         | UnsupportedLookAndFeelException
